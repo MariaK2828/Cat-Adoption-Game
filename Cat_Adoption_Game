@@ -1,0 +1,78 @@
+# Cat adoption game
+import random
+
+class CatAdoption:
+    
+    # c = CatAdoption('Maria')
+    random.seed(90000)
+    def __init__(self, your_name):
+        # User enters what they are looking for in a cat
+        self.your_name = your_name
+        self.pref_breed = input("What breed of cat are you looking for: ").capitalize()
+        self.max_age = input("How old are you willing to go when searching for a cat: ")
+        self.pref_gen = input("What gender of cat are you looking for (M/F): ").capitalize()
+        self.pref_qual = input("What are some qualities that you look for in a cat: ")
+        
+        # Dictionary with all of the user's preferences
+        self.owner_pref = {"Name: ": self.your_name, "Preferred breed: ": self.pref_breed, "Max age of cat: ":self.max_age, "Preferred gender: ": self.pref_gen, "Preferred qualities":self.pref_qual}
+        # This is where all the names of the cats you adopt will go
+        self.your_cats = []
+        
+    # displays your profile
+    def __str__(self):
+        return ("Name: " + self.your_name + "\nPreferred breed: " + self.pref_breed + "\nMax age of cat: " + self.max_age+ "\nPreferred gender: " + self.pref_gen + "\nPreferred qualities: " + self.pref_qual)
+    
+    def random_cat_generator(self):
+        # x stands for whether the adopter wants to adopt more cats after their first
+        x = 'y'
+        # While the user wants to adopt more cats
+        while x == 'y':
+            # The program randomly generates cat traits
+            cats = ['Peanut butter', 'William', 'Kevin', 'Skittles', 'George', 'Concrete', 'Big man', 'Mr Tuxedo Man', 'Cabbage Patch', 'Skinny Steve', 'Bill Nye', 'The Meower', 'Pizza pop', 'George Michael', 'Britney Spears', 'Sir Whisker', 'Cowboy', 'Jimbo Charlie', 'Carlisle Cullen', 'Bingus', 'Bongus', 'Otis the Menace', 'Ed']
+            cat_name = random.choice(cats)
+            cat_breed = random.choice(['Siamese', 'Sphinx', 'Alien', 'Ginger', 'Black', 'Tabby', 'Maine Coon', 'Mountain Lion', 'Scottish Fold', 'Persian', 'Burmese', 'Ragdoll', 'Shorthair', 'Longhair', 'Large', 'Birman', 'Burmese', 'Abyssinian'])
+            cat_age = random.choice([*range(0,21)])
+            cat_gender = random.choice(['M', 'F'])
+            cat_qualities = random.choice([' has the special quality that you are looking for!', ' does not have the special quality that you are looking for'])
+            
+            # The program displays the qualities in a string
+            print("Name: " + cat_name + "\nBreed: " + cat_breed + "\nAge: " + str(cat_age) + "\nGender: " + cat_gender + "\n" + cat_name +  cat_qualities)
+            
+            # The similiarities between what you want and cat's description
+            similarities = []
+            # counts the similarities between what you want and what the cat is like
+            count = 0
+            # if the cat is of the breed you want
+            if self.owner_pref.get("Preferred breed: ") == cat_breed:
+                similarities.append("breed")
+                count += 1
+            # if the cat is below the user's max age
+            if int(self.owner_pref.get("Max age of cat: ")) >= cat_age:
+                similarities.append("max age")
+                count += 1
+            # if the cat is of the user's preferred gender
+            if self.owner_pref.get("Preferred gender: ") == cat_gender:
+                similarities.append("gender")
+                count += 1
+            
+            # Displays how many of the user's prefered qualities that the cat has
+            print(cat_name + " matches " + str(count) + " qualities:"+ str(similarities))
+            # Asks the user if they want to adopt the cat
+            owner_decision = input("Do you want to adopt " + cat_name + " (y/n)? ")
+            # if yes,
+            if owner_decision == 'y':
+                # the cat's name is added to the your_cats list
+                self.your_cats.append(cat_name)
+                # and a thank you message is sent
+                print("Thank you for giving " + cat_name + " a new home!\n")
+            # if not,
+            else:
+                # The user is asked if they are completely done with adopting cats
+                x = input("Would you like to look at the other cats at the adpotion center (y/n) ? ")
+        
+        # The program exits the loop and returns the names of the cats you adopted
+        cat_str = 'You adopted '
+        for i in self.your_cats:
+            cat_str += i + ", "
+        return cat_str.strip(', ')
+    
